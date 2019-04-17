@@ -150,7 +150,7 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
         }
         if(result.data != null && result.data.isNotEmpty()){
             listItems.addAll(result.data)
-            startIndex = listItems.size+1
+            startIndex = listItems.size
             deliveryAdapter.notifyDataSetChanged()
         }
     }
