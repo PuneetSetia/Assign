@@ -1,18 +1,25 @@
-# Sample Project
 This is a sample app to demostrate data loading from webservice and efficently showing in it Recyclerview using MVVM architecture.
 
 # Assumptions 
-1. The apps would be designed for Android phones only 
-2. App should support only portrait orientation. 
-3. App would support only English language. However, provision to add support for other languages would be available.
+- The apps would be designed for Android phones only 
+- App should support only portrait orientation. 
+- App would support only English language. However, provision to add support for other languages would be available.
 
 # Information
-Retrofit is used for Webservice calls
-Dagger2 is used for Dependency Injection
-Room is used for data caching
-Glide for Image downloading
-MVVM Architecture - (Viewmodel and livedata) 
-Junit/Mockito for unit testing
+- Retrofit is used for Webservice calls
+- Dagger2 is used for Dependency Injection
+- Room is used for data caching
+- Glide for Image downloading
+- MVVM Architecture - (Viewmodel and livedata)
+- Junit/Mockito for unit testing
 
 # How to Run
+1. Download or clone the repository.
+
+git clone https://github.com/PuneetSetia/Assign.git
+
+2. Open Android studio -> File -> Open
+3. Navigate and open to the folder where you can cloned or downloaded the repository.
+4. Replace the google_maps_key tring in google_maps_api_key.xml file with your key.
+5. Compile and Run
 
