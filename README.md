@@ -6,6 +6,7 @@ This is a sample app to demostrate data loading from webservice and efficently s
 - App would support only English language. However, provision to add support for other languages would be available.
 
 # Information
+- Kotlin
 - Retrofit is used for Webservice calls
 - Dagger2 is used for Dependency Injection
 - Room is used for data caching
@@ -15,11 +16,10 @@ This is a sample app to demostrate data loading from webservice and efficently s
 
 # How to Run
 1. Download or clone the repository.
+      git clone https://github.com/PuneetSetia/Assign.git
 
-git clone https://github.com/PuneetSetia/Assign.git
-
-2. Open Android studio -> File -> Open
-3. Navigate and open to the folder where you can cloned or downloaded the repository.
-4. Replace the google_maps_key tring in google_maps_api_key.xml file with your key.
-5. Compile and Run
+2. Open Android studio -> File -> Open.
+3. Navigate to the folder where you can cloned/downloaded the repository.
+4. Replace the google_maps_key string in google_maps_api_key.xml file with your key.
+5. Compile and Run.
 
