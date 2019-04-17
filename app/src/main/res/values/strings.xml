@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Assignment</string>
+    <string name="title_activity_maps">Delivery Details</string>
+    <string name="no_internet_msg">Unable to connect. Please check your internet connection and try again.</string>
+    <string name="no_data_msg">No more data Found</string>
+    <string name="loading_more">Fetching more deliveries …</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search Deliveries</string>
+    <string name="cd_image">Image</string>
+    <string name="no_item">No Item Found</string>
+    <string name="title_delivery_details">Things to Deliver</string>
+    <string name="retry">Retry</string>
+    <string name="invalid_input">Invalid Input</string>
+    <string name="unknown_class">Unknown class name</string>
+</resources>
