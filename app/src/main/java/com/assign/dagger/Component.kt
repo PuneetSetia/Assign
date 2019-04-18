@@ -1,7 +1,5 @@
-package com.assign
+package com.assign.dagger
 
-import com.assign.network.DbModule
-import com.assign.network.DeliveryNetworkModule
 import com.assign.ui.DeliveryListActivity
 import com.assign.ui.DeliveryDetailsActivity
 import dagger.Component

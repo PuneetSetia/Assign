@@ -9,6 +9,7 @@ import com.assign.*
 import com.assign.R
 import com.assign.beans.Delivery
 import com.assign.beans.Result
+import com.assign.dagger.Component
 import com.assign.network.ViewModelFactory
 import com.assign.viewmodel.DeliveryViewModel
 import com.bumptech.glide.Glide

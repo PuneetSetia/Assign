@@ -1,4 +1,4 @@
-package com.assign.network
+package com.assign.dagger
 
 import android.content.Context
 import dagger.Module
@@ -10,6 +10,9 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import androidx.lifecycle.ViewModelProvider
 import com.assign.BuildConfig
+import com.assign.network.ApiInterface
+import com.assign.network.DeliveryRepo
+import com.assign.network.ViewModelFactory
 
 @Module
 class DeliveryNetworkModule{

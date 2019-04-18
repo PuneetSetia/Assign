@@ -1,4 +1,4 @@
-package com.assign.network
+package com.assign.dagger
 
 import android.content.Context
 import androidx.room.Room

@@ -1,6 +1,8 @@
 package com.assign
 
 import android.app.Application
+import com.assign.dagger.ContextModule
+import com.assign.dagger.DaggerComponent
 
 class MyApp : Application(){
     override fun onCreate() {

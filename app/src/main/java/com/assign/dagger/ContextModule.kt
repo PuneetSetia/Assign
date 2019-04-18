@@ -1,4 +1,4 @@
-package com.assign
+package com.assign.dagger
 
 import android.content.Context
 import dagger.Module
