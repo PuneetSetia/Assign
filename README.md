@@ -16,6 +16,7 @@ This is a sample app to demostrate data loading from webservice and efficently s
 
 # How to Run
 1. Download or clone the repository.
+      
       git clone https://github.com/PuneetSetia/Assign.git
 
 2. Open Android studio -> File -> Open.
