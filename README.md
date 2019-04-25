@@ -1,4 +1,4 @@
-This is a sample app to demostrate data loading from webservice and efficently showing in it Recyclerview using MVVM architecture.
+This is a sample app to demonstrate data loading from webservice and efficiently showing in it Recyclerview using MVVM architecture.
 
 # Assumptions 
 - The apps would be designed for Android phones only. 

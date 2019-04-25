@@ -1,6 +1,11 @@
 package com.assign.dagger
 
 import android.content.Context
+import androidx.lifecycle.ViewModelProvider
+import com.assign.BuildConfig
+import com.assign.network.ApiInterface
+import com.assign.network.DeliveryRepo
+import com.assign.viewmodel.ViewModelFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -8,11 +13,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-import androidx.lifecycle.ViewModelProvider
-import com.assign.BuildConfig
-import com.assign.network.ApiInterface
-import com.assign.network.DeliveryRepo
-import com.assign.network.ViewModelFactory
 
 @Module
 class DeliveryNetworkModule{

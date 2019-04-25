@@ -5,11 +5,10 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class ContextModule(appContext: Context){
-    private val mApplication =appContext
+class ContextModule(private val appContext: Context){
 
     @Provides
     fun provideContext(): Context {
-        return mApplication
+        return appContext
     }
 }

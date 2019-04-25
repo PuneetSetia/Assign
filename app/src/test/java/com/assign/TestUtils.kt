@@ -5,7 +5,7 @@ import com.assign.beans.Location
 
 class TestUtils{
     companion object {
-        fun getData(startIndex : Int, count : Int): List<Delivery>? {
+        fun getData(startIndex : Int, count : Int): List<Delivery> {
             val list = ArrayList<Delivery>()
             for (i in startIndex until startIndex+count) {
                 val delivery = Delivery(
