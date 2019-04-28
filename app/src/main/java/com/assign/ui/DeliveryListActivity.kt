@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.idling.CountingIdlingResource
 import com.assign.Constants
 import com.assign.MyApp
 import com.assign.R
@@ -26,6 +27,8 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
     DeliveryAdapter.ItemFilterListener {
 
 
+    val counterLoading = CountingIdlingResource("Load_Data")
+    val reachEnd = CountingIdlingResource("REACH_END")
     private var queryString: String? = null
     lateinit var deliveryAdapter: DeliveryAdapter
     private val layoutManager = LinearLayoutManager(baseContext, RecyclerView.VERTICAL, false)
@@ -42,15 +45,21 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
 
 
     private val liveDataObserver = Observer<Result> { result ->
-        when(result) {
-            is Result.SUCCESS -> handleSuccess(result.data)
+        when (result) {
+            is Result.SUCCESS -> {
+                handleSuccess(result.data)
+                counterLoading.decrementCounter()
+            }
             is Result.LOADING -> {
                 linearError.visibility = View.GONE
                 progressBar.visibility = View.VISIBLE
                 isLoadingMore = true
 
             }
-            is Result.ERROR -> handleError(result.exception)
+            is Result.ERROR -> {
+                handleError(result.exception)
+                counterLoading.decrementCounter()
+            }
         }
     }
 
@@ -60,15 +69,16 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
         }
 
         override fun loadMoreItems() {
+
             isLoadingMore = true
             showMessage(
                 parent,
                 getString(R.string.loading_more)
             )
 
-            progressBar.visibility = View.VISIBLE
             loadData()
-            progressBar.visibility = View.GONE
+            reachEnd.decrementCounter()
+
         }
 
         override fun isLastPage(): Boolean {
@@ -187,6 +197,8 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
     }
 
     private fun loadData() {
+        counterLoading.increment()
+        reachEnd.increment()
         deliveryViewModel.getDeliveries(startIndex, Constants.PAGE_SIZE).observe(this, liveDataObserver)
     }
 
@@ -226,5 +238,7 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
         }
     }
 
-
+    private fun CountingIdlingResource.decrementCounter() {
+        if (!this.isIdleNow) this.decrement()
+    }
 }
