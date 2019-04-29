@@ -23,10 +23,11 @@ import com.assign.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
+private const val QUERY = "key_query"
 class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.ItemSelectListener,
     DeliveryAdapter.ItemFilterListener {
 
-    private val query = "Query"
+
     val counterLoading = CountingIdlingResource("Load_Data")
     private var queryString: String? = null
     lateinit var deliveryAdapter: DeliveryAdapter
@@ -118,7 +119,7 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
         recyclerView.adapter = deliveryAdapter
         recyclerView.addOnScrollListener(paginationScrollListener)
 
-        queryString = savedInstanceState?.getString(query)
+        queryString = savedInstanceState?.getString(QUERY)
         loadData()
     }
 
@@ -175,7 +176,7 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         val queryText = searchView.query.toString()
-        outState.putString(query, queryText)
+        outState.putString(QUERY, queryText)
     }
 
 
