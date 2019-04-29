@@ -26,9 +26,8 @@ import javax.inject.Inject
 class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.ItemSelectListener,
     DeliveryAdapter.ItemFilterListener {
 
-
+    private val query = "Query"
     val counterLoading = CountingIdlingResource("Load_Data")
-    val reachEnd = CountingIdlingResource("REACH_END")
     private var queryString: String? = null
     lateinit var deliveryAdapter: DeliveryAdapter
     private val layoutManager = LinearLayoutManager(baseContext, RecyclerView.VERTICAL, false)
@@ -77,7 +76,6 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
             )
 
             loadData()
-            reachEnd.decrementCounter()
 
         }
 
@@ -108,8 +106,7 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val component = MyApp.getDagger()
-        component.init(this)
+        MyApp.getDagger().init(this)
 
         parent = findViewById(R.id.parent)
 
@@ -121,7 +118,7 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
         recyclerView.adapter = deliveryAdapter
         recyclerView.addOnScrollListener(paginationScrollListener)
 
-        queryString = savedInstanceState?.getString("Query")
+        queryString = savedInstanceState?.getString(query)
         loadData()
     }
 
@@ -178,7 +175,7 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         val queryText = searchView.query.toString()
-        outState.putString("Query", queryText)
+        outState.putString(query, queryText)
     }
 
 
@@ -198,7 +195,6 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
 
     private fun loadData() {
         counterLoading.increment()
-        reachEnd.increment()
         deliveryViewModel.getDeliveries(startIndex, Constants.PAGE_SIZE).observe(this, liveDataObserver)
     }
 

@@ -11,7 +11,6 @@ import com.assign.R
 import com.assign.Utils
 import com.assign.beans.Delivery
 import com.assign.beans.Result
-import com.assign.dagger.Component
 import com.assign.viewmodel.DeliveryViewModel
 import com.assign.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
@@ -26,7 +25,6 @@ import javax.inject.Inject
 
 class DeliveryDetailsActivity : BaseActivity(), OnMapReadyCallback {
 
-    private lateinit var map: GoogleMap
     private lateinit var deliveryOb: Delivery
     private lateinit var imgView: ImageView
     private lateinit var txtView: TextView
@@ -36,13 +34,12 @@ class DeliveryDetailsActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var deliveryViewModel: DeliveryViewModel
     private var id: Int = -1
     private val zoomFactor = 4
-    private lateinit var dagger: Component
     private lateinit var mapFragment: SupportMapFragment
 
     private val liveDataObserver = Observer<Result> {
         when (it) {
             is Result.SUCCESS -> {
-                if (it.data != null && it.data.isNotEmpty()) {
+                if (it.data.isNotEmpty()) {
                     deliveryOb = it.data[0]
                     txtView.text = deliveryOb.description
                     Glide.with(baseContext).load(deliveryOb.imageUrl).into(imgView)
@@ -57,8 +54,7 @@ class DeliveryDetailsActivity : BaseActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_maps)
 
         Utils.hideKeyboard(baseContext)
-        dagger = MyApp.getDagger()
-        dagger.init(this)
+        MyApp.getDagger().init(this)
         deliveryViewModel = ViewModelProviders.of(this, factory).get(DeliveryViewModel::class.java)
 
         id = intent?.extras?.getInt(Constants.ARG_ID) ?: -1
@@ -72,13 +68,12 @@ class DeliveryDetailsActivity : BaseActivity(), OnMapReadyCallback {
 
 
     override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
         val sydney = LatLng(
             deliveryOb.location.lat
             , deliveryOb.location.lng
         )
-        map.addMarker(MarkerOptions().position(sydney).title(deliveryOb.location.address))
-        val zoom = map.maxZoomLevel - map.maxZoomLevel.div(zoomFactor)
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoom))
+        googleMap.addMarker(MarkerOptions().position(sydney).title(deliveryOb.location.address))
+        val zoom = googleMap.maxZoomLevel - googleMap.maxZoomLevel.div(zoomFactor)
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoom))
     }
 }
