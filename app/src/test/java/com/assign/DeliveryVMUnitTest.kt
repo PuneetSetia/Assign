@@ -12,15 +12,13 @@ import com.assign.network.DeliveryRepo
 import com.assign.viewmodel.DeliveryViewModel
 import com.jraska.livedata.test
 import com.nhaarman.mockitokotlin2.*
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @RunWith(MockitoJUnitRunner.Silent::class)
 class DeliveryVMUnitTest {
@@ -37,7 +35,7 @@ class DeliveryVMUnitTest {
     private var context = mock<Context>()
     private var apiInterface = mock<ApiInterface>()
     private val deliveryDao = mock<DeliveryDao>()
-    private val mockedCall = mock<Call<List<Delivery>>>()
+    private val mockedDeferred = CompletableDeferred<List<Delivery>>()
 
     @Before
     fun init() {
@@ -48,16 +46,27 @@ class DeliveryVMUnitTest {
     @Test
     fun getDelivery_Invalid_Input(){
         whenever(context.getString(R.string.invalid_input)).thenReturn("Invalid Input")
-        deliveryViewModel.getDelivery(-1).test().
-            awaitValue()
+        runBlocking {
+            deliveryViewModel.getDelivery(-1)
+        }
+         deliveryViewModel.deliveryData
+            .test().
+             awaitValue()
             .map { (it as? Result.ERROR)?.exception }
             .assertValue("Invalid Input")
+
+
     }
 
     @Test
     fun getDeliveries_Invalid_Input(){
         whenever(context.getString(R.string.invalid_input)).thenReturn("Invalid Input")
-        deliveryViewModel.getDeliveries(-1,0).test().
+
+        runBlocking {
+            deliveryViewModel.getDeliveries(-1,0)
+        }
+
+        deliveryViewModel.deliveryData.test().
             awaitValue()
             .map { (it as? Result.ERROR)?.exception }
             .assertValue("Invalid Input")
@@ -73,17 +82,18 @@ class DeliveryVMUnitTest {
         whenever(appDB.deliveryDao()).thenReturn(deliveryDao)
         whenever(appDB.deliveryDao().getDeliveries(startIndex,Constants.PAGE_SIZE)).
             thenReturn((mutableLiveData.value as? Result.SUCCESS)?.data)
-       whenever(apiInterface.getDeliveries(startIndex,Constants.PAGE_SIZE)).thenReturn(mockedCall)
+       whenever(apiInterface.getDeliveries(startIndex,Constants.PAGE_SIZE)).thenReturn(mockedDeferred)
+        mockedDeferred.complete(testData)
+        runBlocking {
+            deliveryViewModel.getDeliveries(startIndex,Constants.PAGE_SIZE)
 
-        doAnswer {invocationOnMock ->
-            val callback = invocationOnMock.getArgument<Callback<List<Delivery>>>(0)
-            callback.onResponse(mockedCall, Response.success(testData))
-        }.`when`(mockedCall).enqueue(any())
+        }
 
-        deliveryViewModel.getDeliveries(startIndex,Constants.PAGE_SIZE).test().
+            deliveryViewModel.deliveryData.test().
             awaitValue().
             awaitNextValue().map { (it as? Result.SUCCESS)?.data
         }.assertValue(testData)
+
     }
 
 
@@ -91,7 +101,6 @@ class DeliveryVMUnitTest {
     fun getDeliveries_Success(){
         val testData = TestUtils.getData(1, 1)
 
-        val mockedCall = mock<Call<List<Delivery>>>()
         val mutableLiveData = MutableLiveData<Result>()
         mutableLiveData.value = Result.SUCCESS(testData)
 
@@ -99,14 +108,11 @@ class DeliveryVMUnitTest {
         whenever(appDB.deliveryDao().getDeliveries(1,1)).
             thenReturn((mutableLiveData.value as? Result.SUCCESS)?.data)
         whenever(apiInterface.getDeliveries(1,1)).
-            thenReturn(mockedCall)
+            thenReturn(mockedDeferred)
 
-        doAnswer {invocationOnMock ->
-            val callback = invocationOnMock.getArgument<Callback<List<Delivery>>>(0)
-            callback.onResponse(mockedCall, Response.success(testData))
-        }.`when`(mockedCall).enqueue(any())
-
-        deliveryViewModel.getDeliveries(1,1).test().
+        mockedDeferred.complete(testData)
+        deliveryViewModel.getDeliveries(1,1)
+            deliveryViewModel.deliveryData.test().
             awaitValue().
             awaitNextValue().map { (it as? Result.SUCCESS)?.data
         }.assertValue(testData)
@@ -150,18 +156,13 @@ class DeliveryVMUnitTest {
         whenever(appDB.deliveryDao()).thenReturn(deliveryDao)
         whenever(appDB.deliveryDao().getDeliveries(startIndex,Constants.PAGE_SIZE)).
             thenReturn(null)
-        whenever(apiInterface.getDeliveries(startIndex,Constants.PAGE_SIZE)).thenReturn(mockedCall)
-
-        doAnswer {invocationOnMock ->
-            val callback = invocationOnMock.getArgument<Callback<List<Delivery>>>(0)
-            callback.onFailure(mockedCall,RuntimeException("Bad Request"))
-        }.`when`(mockedCall).enqueue(any())
+        whenever(apiInterface.getDeliveries(startIndex,Constants.PAGE_SIZE)).thenReturn(mockedDeferred)
+        mockedDeferred.completeExceptionally(java.lang.RuntimeException("Bad Request"))
 
 
-
-        deliveryViewModel.getDeliveries(startIndex,Constants.PAGE_SIZE).test()
+        deliveryViewModel.getDeliveries(startIndex,Constants.PAGE_SIZE)
+            deliveryViewModel.deliveryData.test()
             .awaitValue().awaitNextValue().map { (it as? Result.ERROR) }
             .assertValue(Result.ERROR("Bad Request"))
     }
-
 }

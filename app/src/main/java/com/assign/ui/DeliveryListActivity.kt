@@ -196,7 +196,8 @@ class DeliveryListActivity : BaseActivity(), LifecycleOwner, DeliveryAdapter.Ite
 
     private fun loadData() {
         counterLoading.increment()
-        deliveryViewModel.getDeliveries(startIndex, Constants.PAGE_SIZE).observe(this, liveDataObserver)
+        deliveryViewModel.deliveryData.observe(this, liveDataObserver)
+        deliveryViewModel.getDeliveries(startIndex, Constants.PAGE_SIZE)
     }
 
     private fun isLoadingFirstPage(): Boolean {

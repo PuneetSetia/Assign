@@ -6,6 +6,8 @@ import com.assign.BuildConfig
 import com.assign.network.ApiInterface
 import com.assign.network.DeliveryRepo
 import com.assign.viewmodel.ViewModelFactory
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -24,6 +26,7 @@ class DeliveryNetworkModule{
     fun getRetroFitApi(okHttpClient: OkHttpClient, gSonFactory : GsonConverterFactory) : ApiInterface {
         val instance = Retrofit.Builder()
             .addConverterFactory(gSonFactory)
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .baseUrl(baseUrl)
             .client(okHttpClient)
             .build()

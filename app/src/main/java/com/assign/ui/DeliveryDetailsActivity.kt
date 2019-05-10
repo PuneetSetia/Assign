@@ -3,6 +3,8 @@ package com.assign.ui
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.DataBindingComponent
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.assign.Constants
@@ -11,6 +13,7 @@ import com.assign.R
 import com.assign.Utils
 import com.assign.beans.Delivery
 import com.assign.beans.Result
+import com.assign.databinding.ActivityMapsBinding
 import com.assign.viewmodel.DeliveryViewModel
 import com.assign.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
@@ -52,7 +55,6 @@ class DeliveryDetailsActivity : BaseActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-
         Utils.hideKeyboard(baseContext)
         MyApp.getDagger().init(this)
         deliveryViewModel = ViewModelProviders.of(this, factory).get(DeliveryViewModel::class.java)
@@ -63,8 +65,11 @@ class DeliveryDetailsActivity : BaseActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         imgView = layoutDelivery.findViewById(R.id.imgView)
         txtView = layoutDelivery.findViewById(R.id.txtDesc)
-        deliveryViewModel.getDelivery(id).observe(this, liveDataObserver)
+        deliveryViewModel.deliveryData.observe(this, liveDataObserver)
+        deliveryViewModel.getDelivery(id)
+
     }
+
 
 
     override fun onMapReady(googleMap: GoogleMap) {

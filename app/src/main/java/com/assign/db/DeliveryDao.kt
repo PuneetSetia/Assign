@@ -9,11 +9,11 @@ interface DeliveryDao {
     @Query("select * from delivery")
     fun getAll(): List<Delivery>
 
-    @Query("select * from delivery where id >=:startID AND id <:endID")
+    @Query("select * from delivery where id BETWEEN :startID AND :endID-1")
     fun getDeliveries(startID: Int, endID: Int): List<Delivery>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(list: List<Delivery>)
+    fun insertAll(list: List<Delivery>) : LongArray
 
 
 }
