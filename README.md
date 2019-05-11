@@ -13,6 +13,7 @@ This is a sample app to demonstrate data loading from webservice and efficiently
 - Glide for Image downloading
 - MVVM Architecture - (Viewmodel and livedata)
 - Junit/Mockito for unit testing
+- Suspend functions, Coroutines for background processing
 
 # How to Run
 1. Download or clone the repository.
