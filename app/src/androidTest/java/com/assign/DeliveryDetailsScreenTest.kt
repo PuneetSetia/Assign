@@ -21,7 +21,10 @@ class DeliveryDetailsScreenTest {
     @Rule
     @JvmField
     val deliveryDetailsActivityRule =
-        ActivityTestRule<DeliveryDetailsActivity>(DeliveryDetailsActivity::class.java, true, false)
+        ActivityTestRule<DeliveryDetailsActivity>(DeliveryDetailsActivity::class.java,
+             true,
+             false
+        )
     private val context = ApplicationProvider.getApplicationContext<Context>()
 
     @Test

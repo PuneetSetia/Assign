@@ -3,8 +3,6 @@ package com.assign.ui
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.databinding.DataBindingComponent
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.assign.Constants
@@ -13,7 +11,6 @@ import com.assign.R
 import com.assign.Utils
 import com.assign.beans.Delivery
 import com.assign.beans.Result
-import com.assign.databinding.ActivityMapsBinding
 import com.assign.viewmodel.DeliveryViewModel
 import com.assign.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide

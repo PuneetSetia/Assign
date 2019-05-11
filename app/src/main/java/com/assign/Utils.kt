@@ -3,9 +3,6 @@ package com.assign
 import android.app.Activity
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
 
 class Utils{
 

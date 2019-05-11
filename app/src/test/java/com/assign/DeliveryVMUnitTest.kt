@@ -82,7 +82,7 @@ class DeliveryVMUnitTest {
         whenever(appDB.deliveryDao()).thenReturn(deliveryDao)
         whenever(appDB.deliveryDao().getDeliveries(startIndex,Constants.PAGE_SIZE)).
             thenReturn((mutableLiveData.value as? Result.SUCCESS)?.data)
-       whenever(apiInterface.getDeliveries(startIndex,Constants.PAGE_SIZE)).thenReturn(mockedDeferred)
+       whenever(apiInterface.getDeliveriesAsync(startIndex,Constants.PAGE_SIZE)).thenReturn(mockedDeferred)
         mockedDeferred.complete(testData)
         runBlocking {
             deliveryViewModel.getDeliveries(startIndex,Constants.PAGE_SIZE)
@@ -107,7 +107,7 @@ class DeliveryVMUnitTest {
         whenever(appDB.deliveryDao()).thenReturn(deliveryDao)
         whenever(appDB.deliveryDao().getDeliveries(1,1)).
             thenReturn((mutableLiveData.value as? Result.SUCCESS)?.data)
-        whenever(apiInterface.getDeliveries(1,1)).
+        whenever(apiInterface.getDeliveriesAsync(1,1)).
             thenReturn(mockedDeferred)
 
         mockedDeferred.complete(testData)
@@ -132,7 +132,7 @@ class DeliveryVMUnitTest {
         }
 
         verify(apiInterface, times(1)).
-            getDeliveries(startIndex,count+10)
+            getDeliveriesAsync(startIndex,count+10)
     }
 
     @Test
@@ -148,7 +148,7 @@ class DeliveryVMUnitTest {
                 getDeliveries(startIndex,count)
         }
         verify(apiInterface, times(0)).
-            getDeliveries(startIndex,count)
+            getDeliveriesAsync(startIndex,count)
     }
 
     @Test
@@ -156,7 +156,7 @@ class DeliveryVMUnitTest {
         whenever(appDB.deliveryDao()).thenReturn(deliveryDao)
         whenever(appDB.deliveryDao().getDeliveries(startIndex,Constants.PAGE_SIZE)).
             thenReturn(null)
-        whenever(apiInterface.getDeliveries(startIndex,Constants.PAGE_SIZE)).thenReturn(mockedDeferred)
+        whenever(apiInterface.getDeliveriesAsync(startIndex,Constants.PAGE_SIZE)).thenReturn(mockedDeferred)
         mockedDeferred.completeExceptionally(java.lang.RuntimeException("Bad Request"))
 
 

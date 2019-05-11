@@ -39,7 +39,7 @@ open class DeliveryRepo @Inject constructor(
         count: Int
     ): Result {
         return try {
-            val dataList = networkApi.getDeliveries(start, count).await()
+            val dataList = networkApi.getDeliveriesAsync(start, count).await()
             if (dataList.isNotEmpty()) {
                 insertData(dataList)
                 Result.SUCCESS(dataList)
